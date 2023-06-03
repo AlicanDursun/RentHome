@@ -1,0 +1,74 @@
+﻿@page "/HouseDetails/{houseId:int}"
+@inject IHouseService HouseService
+@inject IFavoriteService FavoriteService
+
+@*@if (house == null)
+{
+    <Loading />
+}
+else
+{
+    <MudCarousel Class="mud-width-full mt-10" Style="height:200px;" ShowArrows="true" ShowBullets="true" AutoCycle="true" TData="object">
+        <MudCarouselItem Transition="Transition.Slide">
+            <div class="d-flex" style="height:100%">
+                <MudImage Class="mx-auto my-auto" Src="images/pilars.jpg"></MudImage>
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="Transition.Slide">
+            <div class="d-flex" style="height:100%">
+                <MudImage Class="mx-auto my-auto" Src="images/pilars.jpg"></MudImage>
+            </div>
+        </MudCarouselItem>
+        <MudCarouselItem Transition="Transition.Slide">
+            <div class="d-flex" style="height:100%">
+                <MudImage Class="mx-auto my-auto" Src="images/pilars.jpg"></MudImage>
+            </div>
+        </MudCarouselItem>
+    </MudCarousel>
+    <div class="media mt-10">
+      
+        <div class="media-body">
+            <p>@house.Country!.Name / @house.City!.Name <br /> @house.HouseAddress.Street </p>
+            <hr />
+            <p>SquareMeters : @house.HouseFeature!.SquareMeters ㎡</p>
+            <p>RoomCount : @house.HouseFeature.RoomCount</p>
+            <p>Balcony Count : @house.HouseFeature.BalconyCount</p>
+            <p>Furnished : @(house.HouseFeature.Furnished ? "Yes": "No")</p>
+            <p>Natural Gas : @(house.HouseFeature.NaturalGas ? "Yes": "No")  </p>
+            <h2 class="mb-0">@house.HouseFeature!.Price ₺</h2>
+            <hr />
+            <MudButton OnClick="AddToFavorite" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Favorite" Color="Color.Primary">Add Favor</MudButton>
+        </div>
+    </div>
+
+}*@
+
+
+@code {
+    //private House house = null;
+    //private string message = string.Empty;
+    //[Parameter]
+    //public int houseId { get; set; }
+
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    var result = await HouseService.GetHouseDetail(houseId);
+    //    if (!result.Success)
+    //    {
+    //        message = result.Message;
+    //    }
+    //    else
+    //    {
+    //        house = result.Data;
+    //    }
+    //}
+    //private async Task AddToFavorite()
+    //{
+    //    var favoriteItem = new Favorite
+    //        {
+    //            HouseId = house.Id,
+    //            UserId = 1
+    //        };
+    //    await FavoriteService.AddToFavorites(favoriteItem);
+    //}
+}

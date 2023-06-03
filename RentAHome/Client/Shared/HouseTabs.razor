@@ -1,0 +1,34 @@
+﻿@inject NavigationManager NavigationManager
+<MudTabs Outlined="true" Elevation="0" Rounded="true" Style="position:fixed;background-color:white;z-index:2;width:100%;margin-top:35px;">
+    <MudTabPanel Text="Tasarım" Icon="@Icons.Material.Filled.Api" OnClick="HouseCategory"/>
+    <MudTabPanel Text="Sahil" Icon="@Icons.Material.Filled.Build" />
+    <MudTabPanel Text="Küçük evler" Icon="@Icons.Material.Filled.BugReport" />
+    <MudTabPanel Text="Adalar" Icon="@Icons.Material.Filled.Api" />
+    <MudTabPanel Text="Milli parklar" Icon="@Icons.Material.Filled.Build" />
+    <MudTabPanel Text="Dağ evleri" Icon="@Icons.Material.Filled.BugReport" />
+    <MudTabPanel Text="Olağanüstü" Icon="@Icons.Material.Filled.Api" />
+    <MudTabPanel Text="Kuzey kutbu" Icon="@Icons.Material.Filled.Build" />
+    <MudTabPanel Text="Muhteşem havuzlar" Icon="@Icons.Material.Filled.BugReport" />
+    <MudTabPanel Text="Göl kenarı" Icon="@Icons.Material.Filled.Api" />
+    <MudTabPanel Text="Sörf" Icon="@Icons.Material.Filled.Build" />
+    <MudTabPanel Text="Üçgen evler" Icon="@Icons.Material.Filled.BugReport" />
+    <MudTabPanel Text="Ağaç evler" Icon="@Icons.Material.Filled.Api" />
+    <MudTabPanel Text="Kamp" Icon="@Icons.Material.Filled.Build" />
+    <MudTabPanel Text="Kiklad evleri" Icon="@Icons.Material.Filled.BugReport" />
+    <MudTabPanel Text="Mağaralar" Icon="@Icons.Material.Filled.Api" />
+    <MudTabPanel Text="Tropik" Icon="@Icons.Material.Filled.Build" />
+    <MudTabPanel Text="Oda-kahvaltılar" Icon="@Icons.Material.Filled.BugReport" />
+    <MudTabPanel Text="Toprak evler" Icon="@Icons.Material.Filled.Api" />
+    <MudTabPanel Text="Çiftlikler" Icon="@Icons.Material.Filled.Build" />
+    <MudTabPanel Text="Kırsal" Icon="@Icons.Material.Filled.BugReport" />
+</MudTabs>
+
+@code {
+
+    private void HouseCategory()
+    {
+       
+        NavigationManager.NavigateTo("/Tasarim");
+    }
+
+}

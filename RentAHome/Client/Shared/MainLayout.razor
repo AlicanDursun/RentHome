@@ -1,0 +1,37 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Color="Color.Transparent" Fixed="true" Elevation="0" Style="background-color:white !important;height:100px;justify-content: center;">
+        <HomeButton />
+        <MudSpacer />
+        <Search />
+        <MudSpacer />
+        <AuthorizeView>
+             <Authorized>
+                <FavoriteCounter />
+                 
+             </Authorized>
+        </AuthorizeView>
+        <UserMenu/>
+        
+    </MudAppBar>
+
+
+    <MudMainContent>
+        <HouseTabs />
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Style="margin-top:100px;">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+
+
+</MudLayout>
+
+@code {
+   
+
+}

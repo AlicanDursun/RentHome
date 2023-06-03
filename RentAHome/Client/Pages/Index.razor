@@ -1,0 +1,90 @@
+﻿@page "/"
+@page "/{categoryUrl}"
+@inject IHouseService HouseService
+@inject IAuthService AuthService
+@inject IFavoriteService FavoriteService
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
+<PageTitle>Rent A Home</PageTitle>
+@if (HouseService.Houses == null || HouseService.Houses.Count == 0)
+{
+    <MudGrid Spacing="2" style="display:flex;gap:2em 2em;flex-wrap:wrap">
+        @for (var i = 0; i < 10; i++)
+        {
+            <HouseCardSkeletonComp />
+        }
+    </MudGrid>
+}
+else
+{
+    <MudGrid Spacing="2" style="display:flex;gap:2em 2em;flex-wrap:wrap;margin-top:70px">
+        <InfiniteScroll ObserverTargetId="observerTarget" ObservableTargetReached="(e)=>DataGetir()">
+            @foreach (var item in HouseService.Houses)
+            {
+                <HouseCardComp item=@item />
+            }
+
+            @for (var i = 0; i < 5; i++)
+            {
+
+                <div id="observerTarget" style="flex:1 1 320px;">
+                    <HouseCardSkeletonComp />
+                </div>
+            }
+        </InfiniteScroll>
+    </MudGrid>
+}
+
+@code {
+
+    [Parameter]
+    public string? CategoryUrl { get; set; } = null;
+    private int startIndex = 0;
+    private int startIndexCategory = 0;
+    private bool firstRender = true;
+    private bool categoryFirstRender = true;
+    
+
+    protected override void OnInitialized()
+    {
+        HouseService.HouseListChanged += StateHasChanged;
+
+    }
+    public void Dispose()
+    {
+        HouseService.HouseListChanged -= StateHasChanged;
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        await DataGetir();
+        FavoriteService.Favorites.Clear();
+        if(await AuthService.IsUserAuthenticated())
+        await FavoriteService.GetUserFavorites();
+        
+    }
+    private async Task DataGetir()
+    {
+        if (CategoryUrl == null)
+        {
+            await HouseService.GetRangeHouseList(startIndex, 15, firstRender, "");
+            startIndex += 15;
+            firstRender = false;
+        }
+        else
+        {
+            if (categoryFirstRender)
+            {
+                HouseService.Houses.Clear();
+                HouseService.HouseListChanged += StateHasChanged;
+            }
+
+
+            await HouseService.GetRangeHouseList(startIndexCategory, 15, categoryFirstRender, CategoryUrl);
+            startIndexCategory += 15;
+            categoryFirstRender = false;
+        }
+
+    }
+}
+

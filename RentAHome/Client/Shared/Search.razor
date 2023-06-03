@@ -1,0 +1,173 @@
+﻿
+
+<MudPaper Class="d-flex pa-4 rounded-pill" Outlined="true">
+    <MudStack Row="true">
+        <MudTextField @onclick="test" DisableUnderLine=true T="string" Label="Herhangi Bir Yer" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Place" />
+        <MudPaper>
+            <MudDivider Vertical="true" FlexItem="true" />
+        </MudPaper>
+        <MudDateRangePicker @onclick="test" @ref="_picker" Label="Check-In-Out" @bind-DateRange="_dateRange" Adornment="Adornment.None" Class="MydateRange">
+            <PickerActions>
+                <MudButton Class="mr-auto align-self-start" OnClick="@(() => _picker.Clear())">Clear</MudButton>
+                <MudButton OnClick="@(() => _picker.Close(false))">Cancel</MudButton>
+                <MudButton Color="Color.Primary" OnClick="@(() => _picker.Close())">Ok</MudButton>
+            </PickerActions>
+        </MudDateRangePicker>
+        <MudPaper>
+            <MudDivider Vertical="true" FlexItem="true" />
+        </MudPaper>
+
+        <MudButton style="background-color:white;color:grey;padding-right:5em" EndIcon="@Icons.Material.Filled.Search" Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@ToggleOpen">
+            @if (yetiskinCount == 0 && cocukCount == 0 && bebekCount == 0 && hayvanCount == 0)
+            {
+                <MudPaper Style="color:grey" Elevation=0>Misafir Ekleyin</MudPaper>
+            }
+            else
+            {
+                toplamCount = (yetiskinCount + cocukCount + bebekCount + hayvanCount);
+                sonucToplam = "Misafirler  " + toplamCount.ToString();
+                <MudChipSet AllClosable="true" OnClose="Closed">
+                    <MudChip Text="@sonucToplam"></MudChip>
+                </MudChipSet>
+
+            }
+        </MudButton>
+        <MudPaper>
+            <MudPopover Open="_isOpen" OverflowBehavior="OverflowBehavior.FlipAlways" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter" Class="rounded-xl">
+                <MudPaper Class="pa-md-10 mx-lg-auto rounded-xl" Elevation=0>
+                    <MudPaper Class="gap-4 d-flex flex-wrap" MaxWidth="500px" Elevation=0>
+                        <MudPaper Class="flex-auto" Height="64px" Width="500px" Elevation=0>
+                            <MudIconButton OnClick="ToggleOpen" Icon="@Icons.Material.Filled.Add" Class="border" style="color:slategrey;float:right;transform: rotate(45deg);"></MudIconButton>
+                        </MudPaper>
+
+                        <MudPaper Class="flex-auto" Height="64px" Width="200px" Elevation=0>
+                            <MudStack>
+                                <MudText Typo="Typo.h5">Yetişkinler</MudText>
+                                <MudText>13 yaş ver üzeri</MudText>
+                            </MudStack>
+                        </MudPaper>
+                        <MudPaper Class="flex-auto" Height="64px" Width="100px" Elevation=0>
+                            <MudStack Row=true AlignItems="AlignItems.Center">
+                                <MudIconButton Disabled="yetiskinCount==0? true:false" OnClick="(() =>  yetiskinCount -=1)" Icon="@Icons.Material.Filled.Remove" Class="border" style="color:slategrey;"></MudIconButton>
+                                <MudText>@yetiskinCount</MudText>
+                                <MudIconButton OnClick="(() =>  yetiskinCount +=1)" Icon="@Icons.Material.Filled.Add" Class="border" style="color:slategrey;"></MudIconButton>
+                            </MudStack>
+                        </MudPaper>
+                        <MudPaper Class="flex-auto" Height="1" Width="100%" Elevation=0>
+                            <MudDivider DividerType="DividerType.FullWidth" style="background:black;" />
+                        </MudPaper>
+                        <MudPaper Class="flex-auto" Height="64px" Width="200px" Elevation=0>
+                            <MudStack>
+                                <MudText Typo="Typo.h5">Çocuklar</MudText>
+                                <MudText>2-12 yaş</MudText>
+                            </MudStack>
+                        </MudPaper>
+                        <MudPaper Class="flex-auto" Height="64px" Width="100px" Elevation=0>
+                            <MudStack Row=true AlignItems="AlignItems.Center">
+                                <MudIconButton Disabled="cocukCount==0? true:false" OnClick="(() =>  cocukCount -=1)" Icon="@Icons.Material.Filled.Remove" Class="border" style="color:slategrey;"></MudIconButton>
+                                <MudText>@cocukCount</MudText>
+                                <MudIconButton OnClick="(() =>  cocukCount +=1)" Icon="@Icons.Material.Filled.Add" Class="border" style="color:slategrey;"></MudIconButton>
+                            </MudStack>
+                        </MudPaper>
+                        <MudPaper Class="flex-auto" Height="1" Width="100%" Elevation=0>
+                            <MudDivider DividerType="DividerType.FullWidth" style="background:black;" />
+                        </MudPaper>
+                        <MudPaper Class="flex-auto" Height="64px" Width="200px" Elevation=0>
+                            <MudStack>
+                                <MudText Typo="Typo.h5">Bebekler</MudText>
+                                <MudText>2 yaş ve altı</MudText>
+                            </MudStack>
+                        </MudPaper>
+                        <MudPaper Class="flex-auto" Height="64px" Width="100px" Elevation=0>
+                            <MudStack Row=true AlignItems="AlignItems.Center">
+                                <MudIconButton Disabled="bebekCount==0? true:false" OnClick="(() =>  bebekCount -=1)" Icon="@Icons.Material.Filled.Remove" Class="border" style="color:slategrey;"></MudIconButton>
+                                <MudText>@bebekCount</MudText>
+                                <MudIconButton OnClick="(() =>  bebekCount +=1)" Icon="@Icons.Material.Filled.Add" Class="border" style="color:slategrey;"></MudIconButton>
+                            </MudStack>
+                        </MudPaper>
+                        <MudPaper Class="flex-auto" Height="1" Width="100%" Elevation=0>
+                            <MudDivider DividerType="DividerType.FullWidth" style="background:black;" />
+                        </MudPaper>
+                        <MudPaper Class="flex-auto" Height="64px" Width="200px" Elevation=0>
+                            <MudStack>
+                                <MudText Typo="Typo.h5">Evcil Hayvan</MudText>
+                            </MudStack>
+                        </MudPaper>
+                        <MudPaper Class="flex-auto" Height="64px" Width="100px" Elevation=0>
+                            <MudStack Row=true AlignItems="AlignItems.Center">
+                                <MudIconButton Disabled="hayvanCount==0? true:false" OnClick="(() =>  hayvanCount -=1)" Icon="@Icons.Material.Filled.Remove" Class="border" style="color:slategrey;"></MudIconButton>
+                                <MudText>@hayvanCount</MudText>
+                                <MudIconButton OnClick="(() =>  hayvanCount +=1)" Icon="@Icons.Material.Filled.Add" Class="border" style="color:slategrey;"></MudIconButton>
+                            </MudStack>
+                        </MudPaper>
+                    </MudPaper>
+                </MudPaper>
+            </MudPopover>
+        </MudPaper>
+    </MudStack>
+</MudPaper>
+
+
+
+<style>
+    .MydateRange.mud-input.mud-input-underline:before {
+        border: none;
+    }
+
+    .MydateRange.mud-input.mud-input-underline:after {
+        border: none;
+    }
+
+    .MydateRange.mud-input.mud-input-underline:hover:not(.mud-disabled):before {
+        border: none;
+    }
+
+    .MydateRange.mud-input-outlined-border {
+        border-width: 1px !important;
+    }
+
+</style>
+
+
+
+
+@code {
+
+    MudDateRangePicker _picker;
+    DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.AddDays(5).Date);
+    public bool _isOpen = false;
+    private int yetiskinCount = 0;
+    private int cocukCount = 0;
+    private int bebekCount = 0;
+    private int hayvanCount = 0;
+    private int toplamCount = 0;
+    private string sonucToplam = "";
+
+
+
+
+    public void ToggleOpen()
+    {
+        if (_isOpen)
+            _isOpen = false;
+        else
+            _isOpen = true;
+    }
+    public void test()
+    {
+        _isOpen = false;
+
+    }
+    public void Closed(MudChip chip)
+    {
+
+        yetiskinCount = 0;
+        cocukCount = 0;
+        bebekCount = 0;
+        hayvanCount = 0;
+        toplamCount = 0;
+        sonucToplam = "";
+
+
+    }
+}

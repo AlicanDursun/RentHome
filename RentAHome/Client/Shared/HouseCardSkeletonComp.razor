@@ -1,0 +1,29 @@
+﻿<MudCard Class="rounded" style="flex:1 1 320px;">
+    <div style="position:relative;">
+        <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="30px" Width="30px" Style="position:absolute;z-index:1;right:0.5em;top:0.5em;" />
+
+        <MudSkeleton Class="mud-width-full ma-0 rounded" SkeletonType="SkeletonType.Rectangle" Animation="Animation.Wave" style="height:400px;display:flex;" />
+
+        <MudCardContent>
+            <MudStack Row="true" Justify="Justify.SpaceBetween">
+                <MudSkeleton Width="30%" Height="42px;" />
+                <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="40px" Width="40px" />
+            </MudStack>
+            <MudSkeleton Width="30%" Height="42px;" />
+            <MudStack Row="true">
+                <MudSkeleton Width="30%" Height="42px;" />
+                <MudSkeleton Width="30%" Height="42px;" />
+            </MudStack>
+            <MudStack Row="true" Justify="Justify.SpaceBetween" Class="mt-2">
+                <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="40px" Width="40px" />
+                <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="40px" Width="40px" />
+                <MudSkeleton SkeletonType="SkeletonType.Circle" Animation="Animation.Wave" Height="40px" Width="40px" />
+            </MudStack>
+        </MudCardContent>
+    </div>
+
+</MudCard>
+
+@code {
+
+}

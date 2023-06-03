@@ -1,0 +1,311 @@
+﻿@page "/User/House"
+@page "/User/House/{id:int}"
+@inject IHouseService HouseService
+@inject IHouseInfoService HouseInfoService
+@inject NavigationManager NavigationManager
+@implements IDisposable
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudPaper Class="pa-4" Elevation="3">
+            <EditForm Model="house" OnValidSubmit="AddOrUpdateHouse">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <MudTextField Class="form-control"
+                              Label="Title"
+                              For="(()=>house.HouseTitle)"
+                              @bind-Value="house.HouseTitle" />
+                <ValidationMessage For="@(()=>house.HouseTitle)" />
+                <MudTextField Class="form-control"
+                              Label="Description"
+                              Lines=2
+                              For="(()=>house.HouseDescription)"
+                              @bind-Value="house.HouseDescription" />
+                <ValidationMessage For="@(()=>house.HouseDescription)" />
+
+                <MudSelect Class="form-control" T="Country" ToStringFunc="@countryConverter" SelectedValuesChanged="(()=>GetCityListByCountryId(house.HouseAddress.Country))"
+                           @bind-Value="house.HouseAddress.Country"
+                           Label="Country"
+                           Placeholder="Select a Country"
+                           AdornmentIcon="@Icons.Material.Filled.Flag"
+                           AdornmentColor="Color.Primary">
+                    @foreach (var country in HouseInfoService.Countries)
+                    {
+                        <MudSelectItem Value="@country">@country.Name</MudSelectItem>
+
+                    }
+                </MudSelect>
+                <ValidationMessage For="@(()=>house.HouseAddress.Country)" />
+                <MudSelect T="City" Class="form-control"
+                           @bind-Value="house.HouseAddress.City"
+                           Label="City"
+                           Placeholder="Select a City"
+                           ToStringFunc="@cityConverter"
+                           AdornmentIcon="@Icons.Material.Filled.FlagCircle"
+                           AdornmentColor="Color.Primary">
+                    @foreach (var city in HouseInfoService.Cities)
+                    {
+                        <MudSelectItem T="City" Value="@city">@city.Name</MudSelectItem>
+
+                    }
+                </MudSelect>
+                <ValidationMessage For="@(()=>house.HouseAddress.City)" />
+                <MudTextField Class="form-control"
+                              Label="Address"
+                              Lines=2
+                              For="(()=>house.HouseAddress.Street)"
+                              @bind-Value="house.HouseAddress.Street" />
+                <ValidationMessage For="@(()=>house.HouseAddress.Street)" />
+                <MudTextField Class="form-control"
+                              Label="Zip Code"
+                              For="(()=>house.HouseAddress.ZipCode)"
+                              @bind-Value="house.HouseAddress.ZipCode" />
+                <ValidationMessage For="@(()=>house.HouseAddress.ZipCode)" />
+                <MudNumericField Class="form-control"
+                                 Label="Square Meter"
+                                 @bind-Value="house.HouseFeature.SquareMeters"
+                                 For="(() => house.HouseFeature.SquareMeters)" />
+                <ValidationMessage For="@(()=>house.HouseFeature.SquareMeters)" />
+                <MudNumericField Class="form-control"
+                                 Label="Room Count"
+                                 @bind-Value="house.HouseFeature.RoomCount"
+                                 For="(() => house.HouseFeature.RoomCount)" />
+                <ValidationMessage For="@(()=>house.HouseFeature.RoomCount)" />
+                <MudNumericField Class="form-control"
+                                 Label="Balcony Count"
+                                 @bind-Value="house.HouseFeature.BalconyCount"
+                                 For="(() => house.HouseFeature.BalconyCount)" />
+                <ValidationMessage For="@(()=>house.HouseFeature.BalconyCount)" />
+                <MudSelect Class="form-control"
+                           @bind-Value="house.HouseFeature.NaturalGas"
+                           Label="Natural Gas"
+                           Placeholder="Please Select"
+                           AdornmentIcon="@Icons.Material.Filled.LocalGasStation"
+                           AdornmentColor="Color.Primary">
+                    <MudSelectItem Value="true">Yes</MudSelectItem>
+                    <MudSelectItem Value="false">No</MudSelectItem>
+                </MudSelect>
+                <ValidationMessage For="@(()=>house.HouseFeature.NaturalGas)" />
+                <MudSelect Class="form-control"
+                           @bind-Value="house.HouseFeature.Furnished"
+                           Label="Furnished"
+                           Placeholder="Please Select"
+                           AdornmentIcon="@Icons.Material.Filled.Chair"
+                           AdornmentColor="Color.Primary">
+                    <MudSelectItem Value="true">Yes</MudSelectItem>
+                    <MudSelectItem Value="false">No</MudSelectItem>
+                </MudSelect>
+                <ValidationMessage For="@(()=>house.HouseFeature.Furnished)" />
+                <MudNumericField Class="form-control"
+                                 Label="Price"
+                                 Format="N2"
+                                 Culture="CultureInfo.CurrentCulture"
+                                 T="Decimal"
+                                 @bind-Value="house.HouseFeature.Price" />
+                <ValidationMessage For="@(()=>house.HouseFeature.Price)" />
+                <MudButton Class="float-end mt-2"
+                           ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Secondary">@btnText</MudButton>
+                @* <MudButton Class="float-start mt-2" OnClick="DeleteProduct"
+                    ButtonType="ButtonType.Button"
+                    Variant="Variant.Filled"
+                    Color="Color.Error">Delete</MudButton>*@
+            </EditForm>
+        </MudPaper>
+
+
+    </MudItem>
+
+    <MudItem xs="12" sm="5">
+        <MudPaper Class="pa-4" Square="true">
+            @* @foreach (var image in house.Images)
+                {
+                <MudCard Class="ma-2">
+                <MudCardContent>
+                <MudImage Src="@image.Base64"></MudImage>
+                </MudCardContent>
+                <MudCardActions Style="justify-content:center">
+                <MudButton Variant="Variant.Filled"
+                Color="Color.Error"
+                OnClick="@(()=>RemoveImageFromServer(image.Id))">Remove</MudButton>
+                </MudCardActions>
+                </MudCard>
+                }*@
+
+            <MudPaper Height="300px" Outlined="true" Class="relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full">
+                <InputFile OnChange="OnFileChange" multiple class="absolute mud-width-full mud-height-full overflow-hidden z-2" style="opacity:0;" />
+                <MudText Typo="Typo.h6">Drag and drop files here or click</MudText>
+                <MudPaper Class="d-flex flex-xs-row flex-grow-1 gap-4" Elevation="0">
+                    @* @foreach (var image in base64ler)
+                        {
+                        <MudCard Class="ma-2">
+                        <MudCardContent>
+                        <MudImage Src="@image"></MudImage>
+                        </MudCardContent>
+                        <MudCardActions Style="justify-content:center">
+                        <MudButton Variant="Variant.Filled" Size="Size.Small"
+                        Color="Color.Error"
+                        OnClick="@(()=>RemoveImage(image.FileName))">Remove</MudButton>
+                        </MudCardActions>
+                        </MudCard>
+                        }*@
+                </MudPaper>
+            </MudPaper>
+
+
+        </MudPaper>
+    </MudItem>
+
+</MudGrid>
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    House house = new House();
+    string message = "Loading House...";
+    string btnText = "";
+    private List<IBrowserFile> loadedFiles = new();
+    Func<HouseType, string> houseTypeConverter = p => p != null ? p.TypeName : string.Empty;
+    Func<Country, string> countryConverter = p => p != null ? p.Name : string.Empty;
+    Func<City, string> cityConverter = p => p != null ? p.Name : string.Empty;
+
+    protected override void OnInitialized()
+    {
+        HouseInfoService.OnChange += StateHasChanged;
+
+    }
+    public void Dispose()
+    {
+        HouseInfoService.OnChange -= StateHasChanged;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        house.HouseAddress = new HouseAddress();
+        house.HouseAddress.Country = new Country();
+        house.HouseAddress.City = new City();
+        house.HouseFeature = new HouseFeature();
+        await HouseInfoService.GetCountries();
+
+        if (Id == 0)
+        {
+            btnText = "Create House";
+        }
+        else
+        {
+            house = (await HouseService.GetHouseDetail(Id)).Data;
+            if (house == null)
+            {
+                message = $"House with Id '{Id}' does not exist!";
+                return;
+            }
+            await GetCityListByCountryId(house.HouseAddress.Country);
+            btnText = "Update House";
+        }
+    }
+    private async Task GetCityListByCountryId(Country country)
+    {
+        await HouseInfoService.GetCities(new Country { Id = country.Id });
+
+    }
+
+
+    private async void AddOrUpdateHouse()
+    {
+        Snackbar.Clear();
+        var result = new ServiceResponse<int>();
+        foreach (var item in loadedFiles)
+        {
+            Guid g = Guid.NewGuid();
+            house.Images.Add(new Image { HouseId = house.Id, ImageUrl = g + Path.GetExtension(item.Name) });
+        }
+        if (house.Id == 0)
+        {
+            result = await HouseService.CreateHouse(house);
+        }
+        else
+        {
+            result = await HouseService.UpdateHouse(house);
+        }
+
+        if (loadedFiles.Count() > 0)
+        {
+            long maxFileSize = 1024 * 1024 * 15;
+            var content = new MultipartFormDataContent();
+            for (var i = 0; i < loadedFiles.Count; i++)
+            {
+                using Stream fileStream = loadedFiles[i].OpenReadStream(maxFileSize);
+                using MemoryStream ms = new();
+                await fileStream.CopyToAsync(ms);
+                content.Add(
+                new ByteArrayContent(ms.ToArray()),
+                        "\"files\"",
+                        house.Images[i].ImageUrl
+                );
+            }
+            await HouseService.HouseFileUpload(content, result.Data);
+        }
+        if (result.Success)
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopEnd;
+            Snackbar.Add("SUCCESS!", Severity.Success);
+            NavigationManager.NavigateTo("User/Houses");
+        }
+        else
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopEnd;
+            Snackbar.Add("ERROR!<br/>" + result.Message.ToString(), Severity.Error);
+        }
+    }
+
+    ////async void DeleteProduct()
+    ////{
+    ////    bool? result = await DialogService.ShowMessageBox(
+    ////          "Warning",
+    ////          "Deleting can not be undone!",
+    ////          yesText: "Delete!", cancelText: "Cancel");
+    ////    if (result != null)
+    ////    {
+    ////        await HouseService.DeleteHouse(house.Id);
+    ////        NavigationManager.NavigateTo("User/Houses");
+    ////    }
+    ////    state= result==null ? "Cancelled" : "Deleted!";
+
+    ////    bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm",
+    ////    $"Do you really want to delete '{product.Title}' ?");
+    ////    if (confirmed)
+    ////    {
+    ////        await ProductService.DeleteProduct(product);
+    ////        NavigationManager.NavigateTo("admin/products");
+    ////    }
+    ////}
+    async Task OnFileChange(InputFileChangeEventArgs e)
+    {
+        var format = "image/png";
+
+        foreach (var item in e.GetMultipleFiles())
+        {
+            var resizedImage = await item.RequestImageFileAsync(format, 100, 100);
+            var buffer = new byte[resizedImage.Size];
+            await resizedImage.OpenReadStream().ReadAsync(buffer);
+            var imageData = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+            loadedFiles.Add(item);
+
+        }
+    }
+
+    ////void RemoveImage(string fileName )
+    ////{
+    ////    var image = house.Images.FirstOrDefault(w => w.FileName == fileName);
+    ////    if (image != null)
+    ////    {
+    ////        house.Images.Remove(image);
+    ////        loadedFiles.Remove(loadedFiles.FirstOrDefault(w => w.Name == fileName));
+
+    ////    }
+    ////}
+}

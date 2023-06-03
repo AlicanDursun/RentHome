@@ -1,0 +1,24 @@
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\bin\Debug\net6.0\RentAHome.Shared.deps.json
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\bin\Debug\net6.0\RentAHome.Shared.dll
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\bin\Debug\net6.0\RentAHome.Shared.pdb
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.csproj.AssemblyReference.cache
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.AssemblyInfoInputs.cache
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.AssemblyInfo.cs
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.dll
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\obj\Debug\net6.0\refint\RentAHome.Shared.dll
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.pdb
+C:\Users\Pleistarchos\Desktop\RentAHome\RentAHome\Shared\obj\Debug\net6.0\ref\RentAHome.Shared.dll
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\bin\Debug\net6.0\RentAHome.Shared.deps.json
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\bin\Debug\net6.0\RentAHome.Shared.dll
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\bin\Debug\net6.0\RentAHome.Shared.pdb
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.csproj.AssemblyReference.cache
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.AssemblyInfoInputs.cache
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.AssemblyInfo.cs
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.dll
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\obj\Debug\net6.0\refint\RentAHome.Shared.dll
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\obj\Debug\net6.0\RentAHome.Shared.pdb
+C:\Users\Pleistarchos\Desktop\Yeni klasör (3)\RentAHome\RentAHome\Shared\obj\Debug\net6.0\ref\RentAHome.Shared.dll

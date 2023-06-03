@@ -1,0 +1,76 @@
+﻿@page "/favorite"
+@inject IFavoriteService FavoriteService
+@inject NavigationManager NavigationManager
+
+@*<PageTitle>Favorites</PageTitle>
+<h3>Favorites</h3>
+@if (favorites == null)
+{
+    <Loading />
+    <span>@message</span>
+
+}
+else if (favorites.Count == 0)
+{
+    <span>@message</span>
+}
+else
+{
+    <div>
+        @foreach (var favorite in favorites)
+        {
+            
+                <MudContainer MaxWidth="MaxWidth.Small" Class="ma-5">
+                    <MudCard>
+                        <MudCardMedia Image="@favorite.ImageUrl" Height="200" />
+                        <MudCardContent>
+                            <MudText Typo="Typo.h5">@favorite.HouseCountry / @favorite.HouseCity</MudText>
+                            <MudText Typo="Typo.body2">@favorite.HouseStreet</MudText>
+                            <MudText Typo="Typo.body2">@favorite.Price</MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton OnClick="(()=>HouseDetails(favorite.HouseId))" Variant="Variant.Text" Color="Color.Primary">Details</MudButton>
+                            <MudButton OnClick="(()=>RemoveHouseFromFavorite(favorite.HouseId))" Variant="Variant.Text" Color="Color.Error">Delete</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudContainer>
+           
+
+
+
+
+
+        }
+
+    </div>
+}*@
+
+@code {
+    //List<FavoriteHouseResponse> favorites = null;
+    //string message = "Loading Cart...";
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await GetFavoriteHouses();
+    //}
+    //private void HouseDetails(int houseId)
+    //{
+    //    NavigationManager.NavigateTo($"HouseDetails/{houseId}");
+    //}
+    //private async Task RemoveHouseFromFavorite(int houseId)
+    //{
+    //    await FavoriteService.RemoveHouseFromFavorite(houseId);
+
+    //    await GetFavoriteHouses();
+    //}
+
+    //private async Task GetFavoriteHouses()
+    //{
+    //    await FavoriteService.GetFavoritesCount();
+    //    favorites = await FavoriteService.GetFavoriteHouses();
+    //    if (favorites == null || favorites.Count == 0)
+    //    {
+    //        message = "Your favorites are empty.";
+    //    }
+    //}
+}

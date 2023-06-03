@@ -1,0 +1,40 @@
+﻿@inject ILocalStorageService LocalStorage
+@inject IDialogService DialogService
+@inject IFavoriteService FavoriteService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider authStateProvider
+
+
+<MudPaper Class="d-flex pa-2 rounded-circle" Outlined="true">
+    <MudMenu AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter" Icon="@Icons.Material.Filled.Menu">
+        <AuthorizeView>
+            <Authorized>
+                <MudMenuItem>Profile</MudMenuItem>
+                <MudMenuItem Href="/User/Houses">House List</MudMenuItem>
+                <MudMenuItem OnClick="Logout">Logout</MudMenuItem>
+            </Authorized>
+            <NotAuthorized>
+                <MudMenuItem OnClick="OpenDialog">Login</MudMenuItem>
+            </NotAuthorized>
+        </AuthorizeView>
+    </MudMenu>
+</MudPaper>
+
+@code {
+    public bool _isOpen;
+
+    private void OpenDialog()
+    {
+        DialogService.Show<SignInOrSignUp>("Sign-In Or Sign-Up");
+    }
+    private async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("authToken");
+        FavoriteService.Favorites.Clear();
+        await authStateProvider.GetAuthenticationStateAsync();
+        NavigationManager.NavigateTo("");
+    }
+
+
+
+}

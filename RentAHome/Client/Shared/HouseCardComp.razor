@@ -1,0 +1,126 @@
+﻿@inject IFavoriteService FavoriteService
+@inject IDialogService DialogService
+<MudCard @onmouseover="(()=>visible=true)" @onmouseleave="(()=>visible=false)" Class="rounded" style="flex:1 1 320px;" Square="true">
+    <div style="position:relative;">
+        <MudIconButton OnClick="AddToFavorite" Class="favoriteIcon"
+                       style="@((FavoriteService.Favorites.Where(w=>w.HouseId == item.Id).Count()>0) ? @style +"color:rgb(255,20,147);" : @style +"color:rgba(0, 0, 0, 0.5);")"
+                       Icon="@Icons.Rounded.Favorite"
+                       Size="Size.Large"></MudIconButton>
+        <MudCarousel Class="mud-width-full ma-0 rounded" Style="height:400px;display:flex;" BulletsColor="Color.Primary" ShowArrows="@visible" AutoCycle="false" ShowBullets="@visible" TData="House">
+            <BulletTemplate Context="selected">
+                <div Class="mud-icon-button-color-inherit">
+                    <span class="mud-icon-button-label mud-icon-button-size-small">
+                        <MudIcon Style="font-size:0.50rem;" Icon="@Icons.Material.Filled.Circle" Color="@(selected? Color.Inherit :Color.Dark)" />
+                    </span>
+                </div>
+            </BulletTemplate>
+            <PreviousButtonTemplate>
+                <div Class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                    <span class="mud-icon-button-label">
+                        <MudIcon Class="mud-ripple mud-ripple-icon mud-icon-button-size-small" Icon="@Icons.Material.Filled.ArrowBackIos" Color="@Color.Inherit" />
+                    </span>
+                </div>
+            </PreviousButtonTemplate>
+            <NextButtonTemplate>
+                <div Class="mud-button-root mud-icon-button mud-icon-button-color-inherit mud-ripple mud-ripple-icon">
+                    <span class="mud-icon-button-label">
+                        <MudIcon Class="mud-ripple mud-ripple-icon mud-icon-button-size-small" Icon="@Icons.Material.Filled.ArrowForwardIos" Color="@Color.Inherit" />
+                    </span>
+                </div>
+            </NextButtonTemplate>
+            <ChildContent>
+                @if (item.Images.Count == 0)
+                {
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <div style="height:100%;" class="d-flex justify-center">
+                            <MudImage ObjectFit="ObjectFit.Contain" Class="mx-auto my-auto" Src="images/5.png"></MudImage>
+                        </div>
+                    </MudCarouselItem>
+                    <MudCarouselItem Transition="Transition.Slide">
+                        <div style="height:100%;" class="d-flex justify-center">
+                            <MudImage ObjectFit="ObjectFit.Contain" Class="mx-auto my-auto" Src="images/5.png"></MudImage>
+                        </div>
+                    </MudCarouselItem>
+                    <MudCarouselItem CustomTransitionEnter="" Transition="Transition.Slide">
+                        <div style="height:100%;" class="d-flex justify-center">
+                            <MudImage ObjectFit="ObjectFit.Contain" Class="mx-auto my-auto" Src="images/5.png"></MudImage>
+                        </div>
+                    </MudCarouselItem>
+                }
+                else
+                {
+                    @foreach (var image in item.Images)
+                    {
+                        <MudCarouselItem Transition="Transition.Slide">
+                            <div style="height:100%;" class="d-flex justify-center">
+                                <MudImage ObjectFit="ObjectFit.Contain" Class="mx-auto my-auto" Src="@("images/"+item.Id+"/"+image.ImageUrl)"></MudImage>
+                            </div>
+                        </MudCarouselItem>
+                    }
+                }
+
+
+            </ChildContent>
+        </MudCarousel>
+        <MudCardContent>
+            <MudStack Row="true" Justify="Justify.SpaceBetween">
+                <MudText Class="fw-bold">@item.HouseAddress.City.Name , @item.HouseAddress.Country.Name</MudText>
+                <MudButton EndIcon="@Icons.Material.Filled.Star">4,99</MudButton>
+            </MudStack>
+
+            <MudText Typo="Typo.body2">David Chipperfield tarafından tasarlandı<br />16-23 Ekim</MudText>
+            <MudStack Row="true">
+                <MudText Class="fw-bold" Typo="Typo.body2">@item.HouseFeature.Price ₺ </MudText>
+                <MudText Typo="Typo.body2">/ gece</MudText>
+            </MudStack>
+            <MudStack Row="true" Justify="Justify.SpaceBetween" Class="mt-2">
+                <MudStack Row="true">
+                    <MudIcon Icon="@Icons.Filled.SingleBed"></MudIcon>
+                    <MudText Typo="Typo.body2">@item.HouseFeature.RoomCount</MudText>
+                </MudStack>
+                <MudStack Row="true">
+                    <MudIcon Icon="@Icons.Filled.Bed"></MudIcon>
+                    <MudText Typo="Typo.body2">@item.HouseFeature.RoomCount</MudText>
+                </MudStack>
+                <MudStack Row="true">
+                    <MudIcon Icon="@Icons.Filled.Balcony"></MudIcon>
+                    <MudText Typo="Typo.body2">@item.HouseFeature.BalconyCount</MudText>
+                </MudStack>
+            </MudStack>
+        </MudCardContent>
+    </div>
+
+</MudCard>
+
+<style>
+    .favoriteIcon path:nth-child(2) {
+        stroke: white;
+        stroke-width: 2;
+    }
+</style>
+@code {
+    [Parameter]
+    public House item { get; set; }
+    public bool visible = false;
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationStateTask { get; set; }
+    public string style = "position:absolute;z-index:1;right:0.5em;top:0.5em;";
+
+    protected override void OnInitialized()
+    {
+        FavoriteService.OnChange += StateHasChanged;
+    }
+    public void Dispose()
+    {
+        FavoriteService.OnChange -= StateHasChanged;
+    }
+    private async Task AddToFavorite()
+    {
+        var state = await AuthenticationStateTask;
+        var user = state.User;
+        if (user.Identity.IsAuthenticated)
+            await FavoriteService.AddToFavorites(item.Id);
+        else
+            DialogService.Show<SignInOrSignUp>("Sign-In Or Sign-Up");
+    }
+}

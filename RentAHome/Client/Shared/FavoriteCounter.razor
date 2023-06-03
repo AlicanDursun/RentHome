@@ -1,0 +1,18 @@
+﻿@inject IFavoriteService FavoriteService
+
+@implements IDisposable
+
+<MudButton Class="mx-10 rounded-circle" Href="/favorite" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Favorite" Color="Color.Secondary">@FavoriteService.Favorites.Count</MudButton>
+
+@code {
+   
+    protected override  void OnInitialized()
+    {
+        FavoriteService.OnChange += StateHasChanged;
+    }
+    public void Dispose()
+    {
+        FavoriteService.OnChange -= StateHasChanged;
+    }
+    
+}

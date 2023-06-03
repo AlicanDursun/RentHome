@@ -1,0 +1,93 @@
+﻿@inject IAuthService AuthService
+@inject IFavoriteService FavoriteService
+@inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider AuthenticationStateProvider
+<EditForm Model="user" OnValidSubmit="KayitGiris">
+    <MudDialog>
+        <DialogContent>
+            <div class="d-flex flex-column py-1">
+                <DataAnnotationsValidator />
+                <MudTextField Label="Email"
+                              Variant="Variant.Text"
+                              InputType="InputType.Email"
+                              @bind-Value="user.Email" />
+                <ValidationMessage For="@(()=>user.Email)" />
+                <MudTextField T="string"
+                              Label="Password"
+                              Variant="Variant.Text"
+                              InputType="@PasswordInput"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@PasswordInputIcon"
+                              OnAdornmentClick="SifreGoster"
+                              AdornmentAriaLabel="Show Password"
+                              @bind-Value="user.Password" />
+                <ValidationMessage For="@(()=>user.Password)" />
+            </div>
+        </DialogContent>
+        <DialogActions>
+            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary">Sign-In Or Sign-Up</MudButton>
+        </DialogActions>
+    </MudDialog>
+    @if (showHide)
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Filled">@sonuc</MudAlert>
+    }
+</EditForm>
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    bool isShow;
+    bool showHide;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+    User user = new User();
+    string sonuc = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        MudDialog.Options.CloseButton = true;
+        MudDialog.Options.FullWidth = true;
+        MudDialog.SetOptions(MudDialog.Options);
+    }
+    async Task KayitGiris()
+    {
+        var result = await AuthService.RegisterOrLogin(user);
+        await LocalStorage.SetItemAsync("authToken", result.Data);
+        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        if (!result.Success)
+        {
+            showHide = true;
+            sonuc = result.Message;
+
+        }
+        else
+        {
+            await FavoriteService.GetUserFavorites();
+            FavoriteService.OnChange += StateHasChanged;
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+
+    }
+    void SifreGoster()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+
+
+
+
+
+}
